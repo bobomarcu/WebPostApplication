@@ -15,5 +15,9 @@ namespace PostApplication.Data
         }
 
         public DbSet<PostApplication.Models.User> User { get; set; } = default!;
+
+        public DbSet<PostApplication.Models.Courier> Courier { get; set; } = default!;
+
+        public DbSet<PostApplication.Models.Package> Package { get; set; } = default!;
     }
 }

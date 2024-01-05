@@ -6,7 +6,7 @@ namespace PostApplication.Models
     {
         public int ID { get; set; }
 
-        [Display(Name = "Weight")]
+        [Display(Name = "Weight (in KG)")]
         public double Weight { get; set; }
 
         [Display(Name = "Status")]

@@ -14,9 +14,12 @@ namespace PostApplication.Pages.Packages
     {
         private readonly PostApplication.Data.PostApplicationContext _context;
 
-        public CreateModel(PostApplication.Data.PostApplicationContext context)
+        private readonly ILogger<CreateModel> _logger;
+
+        public CreateModel(PostApplication.Data.PostApplicationContext context,ILogger<CreateModel> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public IActionResult OnGet()
@@ -49,16 +52,28 @@ namespace PostApplication.Pages.Packages
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            try
             {
-                PopulateDropdowns(); // Repopulate the dropdown lists on post if there are errors
-                return Page();
+
+                var sender = await _context.User.FindAsync(Package.SenderId);
+                var receiver = await _context.User.FindAsync(Package.ReceiverId);
+                var courier = await _context.Courier.FindAsync(Package.AssignedCourierId);
+
+                Package.Sender = sender;
+                Package.Receiver = receiver;
+                Package.AssignedCourier = courier;
+
+                _context.Package.Add(Package);
+                await _context.SaveChangesAsync();
+
+                return RedirectToPage("./Index");
             }
+            catch (Exception ex)
+            {
+                _logger.LogError(Package.ToString());
 
-            _context.Package.Add(Package);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
+                return RedirectToPage("/Error");
+            }
+        }
         }
     }
-}

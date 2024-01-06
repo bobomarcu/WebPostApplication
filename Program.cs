@@ -1,12 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PostApplication.Data;
+using Microsoft.AspNetCore.Identity;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+
 builder.Services.AddDbContext<PostApplicationContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("PostApplicationContext") ?? throw new InvalidOperationException("Connection string 'PostApplicationContext' not found.")));
+
+builder.Services.AddDbContext<LibraryIdentityContext>(options =>
+
+options.UseSqlServer(builder.Configuration.GetConnectionString("PostApplicationContext") ?? throw new InvalidOperationException("Connectionstring 'PostApplicationContext' not found.")));
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+options.SignIn.RequireConfirmedAccount = true)
+ .AddEntityFrameworkStores<LibraryIdentityContext>();
 
 var app = builder.Build();
 

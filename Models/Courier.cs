@@ -13,7 +13,10 @@ namespace PostApplication.Models
         public string CourierLastName { get; set; }
 
         [Display(Name = "Phone Number")]
-        public string PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; } 
+
+        public int? PostOfficeID { get; set; }
+        public PostOffice? PostOffice { get; set; }
 
         public ICollection<Package>? AssignedPackages { get; set; }
 

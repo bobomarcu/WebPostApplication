@@ -19,7 +19,8 @@ namespace PostApplication.Pages.Couries
             _context = context;
         }
 
-      public Courier Courier { get; set; } = default!; 
+        public Courier Courier { get; set; } = default!;
+        public List<Package> AssignedPackages { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -27,7 +28,7 @@ namespace PostApplication.Pages.Couries
             {
                 return NotFound();
             }
-
+            
             var courier = await _context.Courier.FirstOrDefaultAsync(m => m.Id == id);
             if (courier == null)
             {
@@ -36,6 +37,12 @@ namespace PostApplication.Pages.Couries
             else 
             {
                 Courier = courier;
+                AssignedPackages = _context.Package
+                .Where(p => p.AssignedCourierId == id)
+                .Include(p => p.Sender)
+                .Include(p => p.Receiver)
+                .ToList();
+
             }
             return Page();
         }

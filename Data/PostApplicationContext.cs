@@ -22,6 +22,10 @@ namespace PostApplication.Data
 
         public DbSet<PostApplication.Models.Package> Package { get; set; } = default!;
 
+        public DbSet<PostApplication.Models.PostOffice> PostOffice { get; set; } = default!;
+
+        public DbSet<PostApplication.Models.Cashier> Cashier { get; set; } = default!;
+
         /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using PostApplication.Data;
 using PostApplication.Models;
 
-namespace PostApplication.Pages.Packages
+namespace PostApplication.Pages.Cashiers
 {
     public class DetailsModel : PageModel
     {
@@ -19,23 +19,23 @@ namespace PostApplication.Pages.Packages
             _context = context;
         }
 
-      public Package Package { get; set; } = default!; 
+      public Cashier Cashier { get; set; } = default!; 
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Package == null)
+            if (id == null || _context.Cashier == null)
             {
                 return NotFound();
             }
 
-            var package = await _context.Package.Include(p => p.Sender).Include(p => p.Receiver).Include(p => p.AssignedCourier).FirstOrDefaultAsync(m => m.ID == id);
-            if (package == null)
+            var cashier = await _context.Cashier.FirstOrDefaultAsync(m => m.Id == id);
+            if (cashier == null)
             {
                 return NotFound();
             }
             else 
             {
-                Package = package;
+                Cashier = cashier;
             }
             return Page();
         }

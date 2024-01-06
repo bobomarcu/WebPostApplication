@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using PostApplication.Data;
 using PostApplication.Models;
 
-namespace PostApplication.Pages.Couries
+namespace PostApplication.Pages.PostOffices
 {
     public class EditModel : PageModel
     {
@@ -21,22 +21,21 @@ namespace PostApplication.Pages.Couries
         }
 
         [BindProperty]
-        public Courier Courier { get; set; } = default!;
+        public PostOffice PostOffice { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Courier == null)
+            if (id == null || _context.PostOffice == null)
             {
                 return NotFound();
             }
 
-            var courier =  await _context.Courier.FirstOrDefaultAsync(m => m.Id == id);
-            if (courier == null)
+            var postoffice =  await _context.PostOffice.FirstOrDefaultAsync(m => m.Id == id);
+            if (postoffice == null)
             {
                 return NotFound();
             }
-            Courier = courier;
-            ViewData["PostOfficeID"] = new SelectList(_context.PostOffice, "Id", "Id");
+            PostOffice = postoffice;
             return Page();
         }
 
@@ -49,7 +48,7 @@ namespace PostApplication.Pages.Couries
                 return Page();
             }
 
-            _context.Attach(Courier).State = EntityState.Modified;
+            _context.Attach(PostOffice).State = EntityState.Modified;
 
             try
             {
@@ -57,7 +56,7 @@ namespace PostApplication.Pages.Couries
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CourierExists(Courier.Id))
+                if (!PostOfficeExists(PostOffice.Id))
                 {
                     return NotFound();
                 }
@@ -70,9 +69,9 @@ namespace PostApplication.Pages.Couries
             return RedirectToPage("./Index");
         }
 
-        private bool CourierExists(int id)
+        private bool PostOfficeExists(int id)
         {
-          return (_context.Courier?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.PostOffice?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

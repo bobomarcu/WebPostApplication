@@ -30,6 +30,11 @@
                 <span asp-validation-for="Courier.PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Courier.PostOfficeID" class="control-label"></label>
+                <select asp-for="Courier.PostOfficeID" class="form-control" asp-items="ViewBag.PostOfficeID"></select>
+                <span asp-validation-for="Courier.PostOfficeID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>

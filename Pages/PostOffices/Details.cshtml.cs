@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using PostApplication.Data;
 using PostApplication.Models;
 
-namespace PostApplication.Pages.Packages
+namespace PostApplication.Pages.PostOffices
 {
     public class DetailsModel : PageModel
     {
@@ -19,23 +19,29 @@ namespace PostApplication.Pages.Packages
             _context = context;
         }
 
-      public Package Package { get; set; } = default!; 
+        public PostOffice PostOffice { get; set; } = default!;
+        public List<Package> AssignedPackages { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Package == null)
+            if (id == null || _context.PostOffice == null)
             {
                 return NotFound();
             }
 
-            var package = await _context.Package.Include(p => p.Sender).Include(p => p.Receiver).Include(p => p.AssignedCourier).FirstOrDefaultAsync(m => m.ID == id);
-            if (package == null)
+            var postoffice = await _context.PostOffice.FirstOrDefaultAsync(m => m.Id == id);
+            if (postoffice == null)
             {
                 return NotFound();
             }
             else 
             {
-                Package = package;
+                PostOffice = postoffice;
+                AssignedPackages = _context.Package
+                .Where(p => p.PostOfficeID == id)
+                .Include(p => p.Sender)
+                .Include(p => p.Receiver)
+                .ToList();
             }
             return Page();
         }

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using PostApplication.Data;
 using PostApplication.Models;
 
-namespace PostApplication.Pages.Couries
+namespace PostApplication.Pages.Cashiers
 {
     public class CreateModel : PageModel
     {
@@ -26,18 +26,18 @@ namespace PostApplication.Pages.Couries
         }
 
         [BindProperty]
-        public Courier Courier { get; set; } = default!;
+        public Cashier Cashier { get; set; } = default!;
         
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Courier == null || Courier == null)
+          if (!ModelState.IsValid || _context.Cashier == null || Cashier == null)
             {
                 return Page();
             }
 
-            _context.Courier.Add(Courier);
+            _context.Cashier.Add(Cashier);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

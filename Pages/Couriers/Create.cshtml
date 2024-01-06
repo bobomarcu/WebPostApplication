@@ -15,18 +15,22 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Courier.CourierFirstName" class="control-label"></label>
-                <input asp-for="Courier.CourierFirstName" class="form-control" />
+                <input asp-for="Courier.CourierFirstName" class="form-control" required />
                 <span asp-validation-for="Courier.CourierFirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Courier.CourierLastName" class="control-label"></label>
-                <input asp-for="Courier.CourierLastName" class="form-control" />
+                <input asp-for="Courier.CourierLastName" class="form-control" required />
                 <span asp-validation-for="Courier.CourierLastName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Courier.PhoneNumber" class="control-label"></label>
-                <input asp-for="Courier.PhoneNumber" class="form-control" />
+                <input asp-for="Courier.PhoneNumber" class="form-control" required />
                 <span asp-validation-for="Courier.PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Courier.PostOfficeID" class="control-label"></label>
+                <select asp-for="Courier.PostOfficeID" class="form-control" asp-items="ViewBag.PostOfficeID" required></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

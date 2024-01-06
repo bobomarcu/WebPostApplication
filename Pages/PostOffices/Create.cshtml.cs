@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using PostApplication.Data;
 using PostApplication.Models;
 
-namespace PostApplication.Pages.Couries
+namespace PostApplication.Pages.PostOffices
 {
     public class CreateModel : PageModel
     {
@@ -21,23 +21,22 @@ namespace PostApplication.Pages.Couries
 
         public IActionResult OnGet()
         {
-            ViewData["PostOfficeID"] = new SelectList(_context.PostOffice, "Id", "Id");
             return Page();
         }
 
         [BindProperty]
-        public Courier Courier { get; set; } = default!;
+        public PostOffice PostOffice { get; set; } = default!;
         
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Courier == null || Courier == null)
+          if (!ModelState.IsValid || _context.PostOffice == null || PostOffice == null)
             {
                 return Page();
             }
 
-            _context.Courier.Add(Courier);
+            _context.PostOffice.Add(PostOffice);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

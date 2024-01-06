@@ -4,6 +4,7 @@ namespace PostApplication.Models
 {
     public class PostOffice
     {
+        [Display(Name = "Office Number")]
         public int Id { get; set; }
 
         [Display(Name = "Phone Number")]

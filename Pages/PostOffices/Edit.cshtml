@@ -1,0 +1,55 @@
+﻿@page
+@model PostApplication.Pages.PostOffices.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>PostOffice</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="PostOffice.Id" />
+            <div class="form-group">
+                <label asp-for="PostOffice.PhoneNumber" class="control-label"></label>
+                <input asp-for="PostOffice.PhoneNumber" class="form-control" />
+                <span asp-validation-for="PostOffice.PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PostOffice.Country" class="control-label"></label>
+                <input asp-for="PostOffice.Country" class="form-control" />
+                <span asp-validation-for="PostOffice.Country" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PostOffice.County" class="control-label"></label>
+                <input asp-for="PostOffice.County" class="form-control" />
+                <span asp-validation-for="PostOffice.County" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PostOffice.CityAddress" class="control-label"></label>
+                <input asp-for="PostOffice.CityAddress" class="form-control" />
+                <span asp-validation-for="PostOffice.CityAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PostOffice.StreetAddress" class="control-label"></label>
+                <input asp-for="PostOffice.StreetAddress" class="form-control" />
+                <span asp-validation-for="PostOffice.StreetAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

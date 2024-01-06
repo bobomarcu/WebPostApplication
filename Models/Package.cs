@@ -20,9 +20,10 @@ namespace PostApplication.Models
         public int ReceiverId { get; set; }
         public User Receiver { get; set; }
 
-        [Display(Name = "Courier")]
+        
         public int AssignedCourierId { get; set; }
-        public Courier AssignedCourier { get; set; }
+        [Display(Name = "Assigned Courier")]
+        public Courier? AssignedCourier { get; set; }
 
         [Display(Name = "Date of Creation")]
         [DataType(DataType.DateTime)]
@@ -31,5 +32,11 @@ namespace PostApplication.Models
         [Display(Name = "Expected Arrival")]
         [DataType(DataType.DateTime)]
         public DateTime ExpectedArrival { get; set; } = DateTime.UtcNow.AddHours(2).AddDays(2);
+
+        public int? PostOfficeID { get; set; }
+
+        [Display(Name = "Post Office")]
+        public PostOffice? PostOffice { get; set; }
+
     }
 }

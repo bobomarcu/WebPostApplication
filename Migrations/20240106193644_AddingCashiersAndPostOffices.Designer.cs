@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PostApplication.Data;
 
@@ -11,9 +12,11 @@ using PostApplication.Data;
 namespace PostApplication.Migrations
 {
     [DbContext(typeof(PostApplicationContext))]
-    partial class PostApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20240106193644_AddingCashiersAndPostOffices")]
+    partial class AddingCashiersAndPostOffices
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -205,7 +208,7 @@ namespace PostApplication.Migrations
             modelBuilder.Entity("PostApplication.Models.Cashier", b =>
                 {
                     b.HasOne("PostApplication.Models.PostOffice", "PostOffice")
-                        .WithMany()
+                        .WithMany("CashiersList")
                         .HasForeignKey("PostOfficeID");
 
                     b.Navigation("PostOffice");
@@ -214,7 +217,7 @@ namespace PostApplication.Migrations
             modelBuilder.Entity("PostApplication.Models.Courier", b =>
                 {
                     b.HasOne("PostApplication.Models.PostOffice", "PostOffice")
-                        .WithMany()
+                        .WithMany("CouriersList")
                         .HasForeignKey("PostOfficeID");
 
                     b.Navigation("PostOffice");
@@ -229,7 +232,7 @@ namespace PostApplication.Migrations
                         .IsRequired();
 
                     b.HasOne("PostApplication.Models.PostOffice", "PostOffice")
-                        .WithMany()
+                        .WithMany("PackagesList")
                         .HasForeignKey("PostOfficeID");
 
                     b.HasOne("PostApplication.Models.User", "Receiver")
@@ -256,6 +259,15 @@ namespace PostApplication.Migrations
             modelBuilder.Entity("PostApplication.Models.Courier", b =>
                 {
                     b.Navigation("AssignedPackages");
+                });
+
+            modelBuilder.Entity("PostApplication.Models.PostOffice", b =>
+                {
+                    b.Navigation("CashiersList");
+
+                    b.Navigation("CouriersList");
+
+                    b.Navigation("PackagesList");
                 });
 #pragma warning restore 612, 618
         }

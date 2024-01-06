@@ -23,5 +23,13 @@ namespace PostApplication.Models
         [Display(Name = "Courier")]
         public int AssignedCourierId { get; set; }
         public Courier AssignedCourier { get; set; }
+
+        [Display(Name = "Date of Creation")]
+        [DataType(DataType.DateTime)]
+        public DateTime CreationDate { get; set; } = DateTime.UtcNow.AddHours(2);
+
+        [Display(Name = "Expected Arrival")]
+        [DataType(DataType.DateTime)]
+        public DateTime ExpectedArrival { get; set; } = DateTime.UtcNow.AddHours(2).AddDays(2);
     }
 }

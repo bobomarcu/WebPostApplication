@@ -19,25 +19,56 @@
                 <input asp-for="Package.Weight" class="form-control" />
                 <span asp-validation-for="Package.Weight" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Package.Status" class="control-label"></label>
-                <input asp-for="Package.Status" class="form-control" />
+                <select asp-for="Package.Status" class="form-control" required>
+                    <option value="Processed" selected>Processed</option>
+                    <option value="Courier">Courier</option>
+                    <option value="Delivered">Delivered</option>
+                </select>
                 <span asp-validation-for="Package.Status" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Package.SenderId" class="control-label"></label>
-                <select asp-for="Package.SenderId" class="form-control" asp-items="ViewBag.SenderId"></select>
+                <select asp-for="Package.SenderId" class="form-control" required>
+                    <option value="" disabled>Select Sender</option>
+                    @foreach (var sender in Model.SenderList)
+                    {
+                        <option value="@sender.Value">@sender.Text</option>
+                    }
+                </select>
                 <span asp-validation-for="Package.SenderId" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Package.ReceiverId" class="control-label"></label>
-                <select asp-for="Package.ReceiverId" class="form-control" asp-items="ViewBag.ReceiverId"></select>
+                <select asp-for="Package.ReceiverId" class="form-control" required>
+                    <option value="" disabled>Select Receiver</option>
+                    @foreach (var receiver in Model.ReceiverList)
+                    {
+                        <option value="@receiver.Value">@receiver.Text</option>
+                    }
+                </select>
                 <span asp-validation-for="Package.ReceiverId" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Package.AssignedCourierId" class="control-label"></label>
-                <select asp-for="Package.AssignedCourierId" class="form-control" asp-items="ViewBag.AssignedCourierId"></select>
+                <select asp-for="Package.AssignedCourierId" class="form-control" required>
+                    <option value="-1" selected>No Assigned Courier</option>
+                    @foreach (var courier in Model.AssignedCourierList)
+                    {
+                        <option value="@courier.Value">@courier.Text</option>
+                    }
+                </select>
                 <span asp-validation-for="Package.AssignedCourierId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Package.ExpectedArrival" class="control-label"></label>
+                <input asp-for="Package.ExpectedArrival" class="form-control datepicker" />
+                <span asp-validation-for="Package.ExpectedArrival" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

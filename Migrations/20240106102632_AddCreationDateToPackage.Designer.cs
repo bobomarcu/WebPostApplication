@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PostApplication.Data;
 
@@ -11,9 +12,11 @@ using PostApplication.Data;
 namespace PostApplication.Migrations
 {
     [DbContext(typeof(PostApplicationContext))]
-    partial class PostApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20240106102632_AddCreationDateToPackage")]
+    partial class AddCreationDateToPackage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,9 +62,6 @@ namespace PostApplication.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ExpectedArrival")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("ReceiverId")

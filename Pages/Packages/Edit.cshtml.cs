@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging; // Include ILogger
 using PostApplication.Data;
 using PostApplication.Models;
 
@@ -14,14 +15,20 @@ namespace PostApplication.Pages.Packages
     public class EditModel : PageModel
     {
         private readonly PostApplication.Data.PostApplicationContext _context;
+        private readonly ILogger<EditModel> _logger; // Include ILogger
 
-        public EditModel(PostApplication.Data.PostApplicationContext context)
+        public EditModel(PostApplication.Data.PostApplicationContext context, ILogger<EditModel> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         [BindProperty]
         public Package Package { get; set; } = default!;
+
+        public SelectList SenderList { get; set; }
+        public SelectList ReceiverList { get; set; }
+        public SelectList AssignedCourierList { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,15 +37,13 @@ namespace PostApplication.Pages.Packages
                 return NotFound();
             }
 
-            var package =  await _context.Package.FirstOrDefaultAsync(m => m.ID == id);
+            var package = await _context.Package.FirstOrDefaultAsync(m => m.ID == id);
             if (package == null)
             {
                 return NotFound();
             }
             Package = package;
-           ViewData["AssignedCourierId"] = new SelectList(_context.Courier, "Id", "Id");
-           ViewData["ReceiverId"] = new SelectList(_context.User, "Id", "Id");
-           ViewData["SenderId"] = new SelectList(_context.User, "Id", "Id");
+            PopulateDropdowns(); 
             return Page();
         }
 
@@ -46,10 +51,6 @@ namespace PostApplication.Pages.Packages
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
 
             _context.Attach(Package).State = EntityState.Modified;
 
@@ -74,7 +75,21 @@ namespace PostApplication.Pages.Packages
 
         private bool PackageExists(int id)
         {
-          return (_context.Package?.Any(e => e.ID == id)).GetValueOrDefault();
+            return (_context.Package?.Any(e => e.ID == id)).GetValueOrDefault();
+        }
+
+        private void PopulateDropdowns()
+        {
+            var users = _context.User.ToList();
+            var couriers = _context.Courier.ToList();
+
+            SenderList = new SelectList(users, "Id", "FullName", Package.SenderId);
+            ReceiverList = new SelectList(users, "Id", "FullName", Package.ReceiverId);
+            AssignedCourierList = new SelectList(couriers, "Id", "FullName", Package.AssignedCourierId);
+
+            ViewData["SenderList"] = SenderList;
+            ViewData["ReceiverList"] = ReceiverList;
+            ViewData["AssignedCourierList"] = AssignedCourierList;
         }
     }
 }

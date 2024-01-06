@@ -14,6 +14,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Package[0].ID)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Package[0].Weight)
             </th>
             <th>
@@ -28,6 +31,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Package[0].AssignedCourier)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Package[0].CreationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Package[0].ExpectedArrival)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -35,19 +44,28 @@
 @foreach (var item in Model.Package) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.ID)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Weight)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Sender.Id)
+                @Html.DisplayFor(modelItem => item.Sender.FullName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Receiver.Id)
+                @Html.DisplayFor(modelItem => item.Receiver.FullName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AssignedCourier.Id)
+                @Html.DisplayFor(modelItem => item.AssignedCourier.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpectedArrival)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |

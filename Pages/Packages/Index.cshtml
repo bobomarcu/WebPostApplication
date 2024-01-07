@@ -37,6 +37,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Package[0].ExpectedArrival)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Package[0].PostOffice)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -66,6 +69,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ExpectedArrival)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostOfficeID)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |

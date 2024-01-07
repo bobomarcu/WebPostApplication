@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,6 +11,7 @@ using PostApplication.Models;
 
 namespace PostApplication.Pages.Packages
 {
+    [Authorize(Roles = "Admin,Cashier")]
     public class CreateModel : PageModel
     {
         private readonly PostApplication.Data.PostApplicationContext _context;
@@ -34,15 +36,18 @@ namespace PostApplication.Pages.Packages
         public SelectList SenderList { get; set; }
         public SelectList ReceiverList { get; set; }
         public SelectList AssignedCourierList { get; set; }
+        public SelectList PostOfficesList { get; set; }
 
         private void PopulateDropdowns()
         {
             var users = _context.User.ToList();
             var couriers = _context.Courier.ToList();
+            var postOffices = _context.PostOffice.ToList();
 
             SenderList = new SelectList(users, "Id", "FullName");
             ReceiverList = new SelectList(users, "Id", "FullName");
             AssignedCourierList = new SelectList(couriers, "Id", "FullName");
+            ViewData["PostOfficeID"] = new SelectList(_context.PostOffice, "Id", "Id");
 
             ViewData["SenderList"] = SenderList;
             ViewData["ReceiverList"] = ReceiverList;

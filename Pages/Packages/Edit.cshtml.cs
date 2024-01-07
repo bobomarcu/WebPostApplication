@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,6 +13,7 @@ using PostApplication.Models;
 
 namespace PostApplication.Pages.Packages
 {
+    [Authorize(Roles = "Admin,Cashier,Courier")]
     public class EditModel : PageModel
     {
         private readonly PostApplication.Data.PostApplicationContext _context;
@@ -29,6 +31,7 @@ namespace PostApplication.Pages.Packages
         public SelectList SenderList { get; set; }
         public SelectList ReceiverList { get; set; }
         public SelectList AssignedCourierList { get; set; }
+        public SelectList PostOfficesList { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -43,6 +46,7 @@ namespace PostApplication.Pages.Packages
                 return NotFound();
             }
             Package = package;
+            ViewData["PostOfficeID"] = new SelectList(_context.PostOffice, "Id", "Id");
             PopulateDropdowns(); 
             return Page();
         }
@@ -82,14 +86,17 @@ namespace PostApplication.Pages.Packages
         {
             var users = _context.User.ToList();
             var couriers = _context.Courier.ToList();
+            var postOffices = _context.PostOffice.ToList();
 
             SenderList = new SelectList(users, "Id", "FullName", Package.SenderId);
             ReceiverList = new SelectList(users, "Id", "FullName", Package.ReceiverId);
             AssignedCourierList = new SelectList(couriers, "Id", "FullName", Package.AssignedCourierId);
+            
 
             ViewData["SenderList"] = SenderList;
             ViewData["ReceiverList"] = ReceiverList;
             ViewData["AssignedCourierList"] = AssignedCourierList;
+            
         }
     }
 }
